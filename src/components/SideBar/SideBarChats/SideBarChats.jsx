@@ -1,4 +1,5 @@
 import SideBarChatCard from "../SideBarChatCard/SideBarChatCard";
+import { Link } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const SideBarChats = ({ contacts }) => {
@@ -7,9 +8,9 @@ const SideBarChats = ({ contacts }) => {
       <h2>Chats</h2>
       {contacts.length > 0 ? (
         contacts.map((contact) => (
-          <div key={contact._id}>
+          <Link to={contact.chatId} key={contact._id}>
             <SideBarChatCard contact={contact} />
-          </div>
+          </Link>
         ))
       ) : (
         <p>No chats</p>
