@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
+import Root, { loader as rootLoader } from "./routes/root";
 import ChatPage from "./routes/ChatPage/ChatPage";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 // import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -13,6 +13,7 @@ const router = createBrowserRouter(
     {
       path: "/",
       element: <Root />,
+      loader: rootLoader,
       errorElement: <ErrorPage />,
       children: [{ index: true, element: <ChatPage /> }],
     },

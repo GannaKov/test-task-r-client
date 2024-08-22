@@ -1,10 +1,19 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import SideBar from "./SideBar/SideBar";
+import { useEffect, useState } from "react";
 
+import { Outlet, useLoaderData } from "react-router-dom";
+import SideBar from "./SideBar/SideBar";
+import { getChatById, getContactsWithChat } from "../services/requests";
+
+export async function loader() {
+  const contacts = await getContactsWithChat();
+  return { contacts };
+}
 export default function Root() {
+  const { contacts } = useLoaderData();
+
   return (
     <div className="appWrapper ">
-      <SideBar />
+      <SideBar contacts={contacts} />
 
       <Outlet />
     </div>

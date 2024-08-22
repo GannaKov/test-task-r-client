@@ -5,19 +5,45 @@ import axios from "axios";
 //   ? "http://localhost:3000/api/"
 //   : "https://cors-anywhere.herokuapp.com/https://live.devnimble.com/api/v1";
 
-const BASEURL = "http://localhost:3000/api/";
+const BASEURL = "http://localhost:3000/api";
 
 const instance = axios.create({ baseURL: BASEURL });
 
-// get all contacts
-export const getContacts = async () => {
+// get all contacts with chat
+export const getContactsWithChat = async () => {
   try {
-    let urlBackend =
-      "/contacts?record_type=person&sort=created:desc&fields=first%20name,last%20name,email";
+    let urlBackend = "/users/withchat";
 
     const { data } = await instance.get(urlBackend);
+    console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
 
-    return data.resources;
+// get  chat by Id
+export const getChatById = async (chatId) => {
+  try {
+    let urlBackend = `/chats/${chatId}`;
+
+    const { data } = await instance.get(urlBackend);
+    console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
+// get  message by Id
+export const getMessageById = async (messageId) => {
+  try {
+    let urlBackend = `/message/${messageId}`;
+
+    const { data } = await instance.get(urlBackend);
+    console.log("data", data.data);
+    return data.data;
   } catch (error) {
     console.log("error", error);
     throw error.response ? error.response.data : new Error("Unknown error");
