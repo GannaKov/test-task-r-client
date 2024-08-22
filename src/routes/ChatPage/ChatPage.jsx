@@ -1,5 +1,4 @@
-import { useLoaderData, Form } from "react-router-dom";
-
+import { useLoaderData, Form, useOutletContext } from "react-router-dom";
 import {
   createMessage,
   getChatById,
@@ -8,7 +7,6 @@ import {
 import ChatPageChat from "../../components/ChatPage/ChatPageChat/ChatPageChat";
 import ChatPageHeader from "../../components/ChatPage/ChatPageHeader/ChatPageHeader";
 import { useEffect, useState } from "react";
-import ChatPageInput from "../../components/ChatPage/ChatPageInput/ChatPageInput";
 import useAuth from "../../context/useAuthHook";
 
 export async function loader({ params }) {
@@ -16,29 +14,21 @@ export async function loader({ params }) {
   return { chat };
 }
 
-// export async function action({ params, request }) {
-//   const formData = await request.formData();
-//   const message = {
-//     text: formData.get("text"),
-//     // chatId: chat._id,
-//     senderId: user._id,
-//   };
-//   console.log("message", message);
-//   const newMessage = await createMessage(chat._id, message);
-// }
-
 const ChatPage = () => {
   const { chat } = useLoaderData();
   const { user } = useAuth();
-  const [chatParticipant, setChatParticipant] = useState();
   const [messages, setMessages] = useState(chat.messages);
+  const { onNewMessage } = useOutletContext();
+  const [chatParticipant, setChatParticipant] = useState(null);
 
   useEffect(() => {
-    const getParticipant = async (participantId) => {
-      const participant = await getContactById(participantId);
+    const getParticipant = async () => {
+      const participant = await getContactById(chat.participant);
       setChatParticipant(participant);
     };
-    getParticipant(chat.participant);
+
+    getParticipant(); // Загружаем данные участника
+    setMessages(chat.messages); // Устанавливаем сообщения чата
   }, [chat]);
 
   const handleSubmit = async (e) => {
@@ -46,12 +36,16 @@ const ChatPage = () => {
     const formData = new FormData(e.target);
     const message = {
       text: formData.get("text"),
-      // chatId: chat._id,
       senderId: user._id,
     };
-    console.log("message", message);
+
     const newMessage = await createMessage(chat._id, message);
+
     setMessages((prevMessages) => [...prevMessages, newMessage._id]);
+
+    // Вызовем onNewMessage из Root для обновления Sidebar
+    onNewMessage(chat._id, newMessage);
+
     e.target.reset();
   };
 
@@ -59,7 +53,6 @@ const ChatPage = () => {
     <div className="section rightPart">
       <ChatPageHeader participant={chatParticipant} />
       <ChatPageChat messages={messages} />
-      <ChatPageInput />
       <Form method="post" onSubmit={handleSubmit}>
         <input type="text" name="text" />
         <button type="submit">New</button>

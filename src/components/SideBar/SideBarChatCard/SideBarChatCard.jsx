@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { getChatById, getMessageById } from "../../../services/requests";
 import { Link } from "react-router-dom";
+import { getChatById, getMessageById } from "../../../services/requests";
 
 const SideBarChatCard = ({ contact }) => {
   const [chatLastMessage, setChatLastMessage] = useState([]);
@@ -13,12 +13,11 @@ const SideBarChatCard = ({ contact }) => {
       if (chat.messages.length > 0) {
         const lastMessageId = chat.messages[chat.messages.length - 1];
         const lastMessage = await getMessageById(lastMessageId);
-        //console.log("lastMessage", lastMessage);
         setChatLastMessage(lastMessage);
       }
     };
     getChatMessages(contact.chatId);
-  }, [contact.chatId]);
+  }, [contact.chatId, contact.lastMessage]); // Добавили зависимость от contact.lastMessage
 
   return (
     <div>
