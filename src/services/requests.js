@@ -9,6 +9,20 @@ const BASEURL = "http://localhost:3000/api";
 
 const instance = axios.create({ baseURL: BASEURL });
 
+// get  contact by Id
+export const getCurrentUser = async () => {
+  try {
+    let urlBackend = `/users/current-user`;
+
+    const { data } = await instance.get(urlBackend);
+    console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
+
 // get all contacts with chat
 export const getContactsWithChat = async () => {
   try {
