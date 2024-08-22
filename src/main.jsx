@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root, { loader as rootLoader } from "./routes/root";
 import ChatPage, {
   loader as chatLoader,
-  action as chatAction,
+  // action as chatAction,
 } from "./routes/ChatPage/ChatPage";
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 import AuthProvider from "./context/AuthProvider";
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
           path: "/:chatId",
           element: <ChatPage />,
           loader: chatLoader,
-          action: chatAction,
+          // action: chatAction,
         },
       ], //index: true,
     },

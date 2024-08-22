@@ -1,13 +1,13 @@
 import ChatPageMessageCard from "../ChatPageMessageCard/ChatPageMessageCard";
 
 /* eslint-disable react/prop-types */
-const ChatPageChat = ({ chat }) => {
+const ChatPageChat = ({ messages }) => {
   return (
     <div>
-      {chat.messages.length > 0 &&
-        chat.messages.map((message) => (
-          <div key={message}>
-            <ChatPageMessageCard messageId={message} />
+      {messages.length > 0 &&
+        messages.map((messageId) => (
+          <div key={messageId}>
+            <ChatPageMessageCard messageId={messageId} />
           </div>
         ))}
     </div>

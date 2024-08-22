@@ -15,7 +15,7 @@ export const getCurrentUser = async () => {
     let urlBackend = `/users/current-user`;
 
     const { data } = await instance.get(urlBackend);
-    console.log("data", data.data);
+    //console.log("data", data.data);
     return data.data;
   } catch (error) {
     console.log("error", error);
@@ -79,11 +79,11 @@ export const getMessageById = async (messageId) => {
 };
 
 // create message
-export const createMessage = async (text, senderId) => {
+export const createMessage = async (chatId, message) => {
   try {
-    let urlBackend = `/message/${senderId}`;
-
-    const { data } = await instance.post(urlBackend, { senderId, text });
+    let urlBackend = `/message/${chatId}`;
+    //{ senderId, text }
+    const { data } = await instance.post(urlBackend, message);
     console.log("data", data.data);
     return data.data;
   } catch (error) {
