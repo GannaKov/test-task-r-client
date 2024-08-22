@@ -1,4 +1,4 @@
-import ChatPageMessageCard from "../../../components/ChatPage/ChatPageMessageCard/ChatPageMessageCard";
+import ChatPageMessageCard from "../ChatPageMessageCard/ChatPageMessageCard";
 
 /* eslint-disable react/prop-types */
 const ChatPageChat = ({ chat }) => {

@@ -15,7 +15,21 @@ export const getContactsWithChat = async () => {
     let urlBackend = "/users/withchat";
 
     const { data } = await instance.get(urlBackend);
-    console.log("data", data.data);
+    //console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
+
+// get  contact by Id
+export const getContactById = async (userId) => {
+  try {
+    let urlBackend = `/users/${userId}`;
+
+    const { data } = await instance.get(urlBackend);
+    //console.log("data", data.data);
     return data.data;
   } catch (error) {
     console.log("error", error);
@@ -29,7 +43,7 @@ export const getChatById = async (chatId) => {
     let urlBackend = `/chats/${chatId}`;
 
     const { data } = await instance.get(urlBackend);
-    console.log("data", data.data);
+    //console.log("data", data.data);
     return data.data;
   } catch (error) {
     console.log("error", error);
@@ -42,6 +56,20 @@ export const getMessageById = async (messageId) => {
     let urlBackend = `/message/${messageId}`;
 
     const { data } = await instance.get(urlBackend);
+    //console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
+
+// create message
+export const createMessage = async (text, senderId) => {
+  try {
+    let urlBackend = `/message/${senderId}`;
+
+    const { data } = await instance.post(urlBackend, { senderId, text });
     console.log("data", data.data);
     return data.data;
   } catch (error) {

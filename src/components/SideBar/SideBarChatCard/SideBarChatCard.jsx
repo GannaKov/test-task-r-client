@@ -13,7 +13,7 @@ const SideBarChatCard = ({ contact }) => {
       if (chat.messages.length > 0) {
         const lastMessageId = chat.messages[chat.messages.length - 1];
         const lastMessage = await getMessageById(lastMessageId);
-        console.log("lastMessage", lastMessage);
+        //console.log("lastMessage", lastMessage);
         setChatLastMessage(lastMessage);
       }
     };
