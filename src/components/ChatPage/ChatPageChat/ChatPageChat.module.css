@@ -1,0 +1,8 @@
+.chatSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.chatSection .owner {
+  align-self: flex-end;
+}

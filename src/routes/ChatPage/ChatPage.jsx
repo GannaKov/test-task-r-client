@@ -27,8 +27,8 @@ const ChatPage = () => {
       setChatParticipant(participant);
     };
 
-    getParticipant(); // Загружаем данные участника
-    setMessages(chat.messages); // Устанавливаем сообщения чата
+    getParticipant();
+    setMessages(chat.messages);
   }, [chat]);
 
   const handleSubmit = async (e) => {
@@ -43,7 +43,6 @@ const ChatPage = () => {
 
     setMessages((prevMessages) => [...prevMessages, newMessage._id]);
 
-    // Вызовем onNewMessage из Root для обновления Sidebar
     onNewMessage(chat._id, newMessage);
 
     e.target.reset();
@@ -52,7 +51,7 @@ const ChatPage = () => {
   return (
     <div className="section rightPart">
       <ChatPageHeader participant={chatParticipant} />
-      <ChatPageChat messages={messages} />
+      <ChatPageChat messages={messages} participant={chatParticipant} />
       <Form method="post" onSubmit={handleSubmit}>
         <input type="text" name="text" />
         <button type="submit">New</button>

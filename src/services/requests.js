@@ -91,3 +91,15 @@ export const createMessage = async (chatId, message) => {
     throw error.response ? error.response.data : new Error("Unknown error");
   }
 };
+
+export const getRandomQuotes = async () => {
+  try {
+    let urlBackend = `https://api.quotable.io/quotes/random?limit=1&maxLength=100`;
+    const { data } = await instance.get(urlBackend);
+    console.log("data", data.data);
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response ? error.response.data : new Error("Unknown error");
+  }
+};
