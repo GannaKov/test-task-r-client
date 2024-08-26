@@ -1,14 +1,14 @@
 import useAuth from "../../../context/useAuthHook";
 
 const SideBarHeader = () => {
-  const { user } = useAuth();
+  const { ownerUser } = useAuth();
 
   return (
     <div className="container">
-      {user && (
+      {ownerUser && (
         <>
-          <span>{user.firstName}</span>
-          <span>{user.lastName}</span>
+          <span>{ownerUser.firstName}</span>
+          <span>{ownerUser.lastName}</span>
         </>
       )}
     </div>

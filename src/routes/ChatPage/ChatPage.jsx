@@ -16,7 +16,7 @@ export async function loader({ params }) {
 
 const ChatPage = () => {
   const { chat } = useLoaderData();
-  const { user } = useAuth();
+  const { ownerUser } = useAuth();
   const [messages, setMessages] = useState(chat.messages);
   const { onNewMessage } = useOutletContext();
   const [chatParticipant, setChatParticipant] = useState(null);
@@ -36,27 +36,47 @@ const ChatPage = () => {
     const formData = new FormData(e.target);
     const message = {
       text: formData.get("text"),
-      senderId: user._id,
+      senderId: ownerUser._id,
     };
 
     const newMessage = await createMessage(chat._id, message);
-
-    setMessages((prevMessages) => [...prevMessages, newMessage._id]);
+    console.log("newMessage", newMessage.data._id);
+    setMessages((prevMessages) => [...prevMessages, newMessage.data._id]);
 
     onNewMessage(chat._id, newMessage);
 
     e.target.reset();
+    // const backMessage = getRandomQuotes();
+    // console.log("backMessage", backMessage);
+    setTimeout(async () => {
+      try {
+        const updatedChat = await getChatById(chat._id);
+        console.log("updatedChat", updatedChat);
+        const latestMessage =
+          updatedChat.messages[updatedChat.messages.length - 1];
+        if (latestMessage) {
+          setMessages((prevMessages) => [...prevMessages, latestMessage]);
+        }
+        console.log("latestMessage", latestMessage);
+      } catch (error) {
+        console.log("Error fetching auto-response:", error);
+      }
+    }, 3000);
   };
 
   return (
-    <div className="section rightPart">
-      <ChatPageHeader participant={chatParticipant} />
-      <ChatPageChat messages={messages} participant={chatParticipant} />
-      <Form method="post" onSubmit={handleSubmit}>
-        <input type="text" name="text" />
-        <button type="submit">New</button>
-      </Form>
-    </div>
+    <>
+      {chatParticipant && (
+        <div className="section rightPart">
+          <ChatPageHeader participant={chatParticipant} />
+          <ChatPageChat messages={messages} participant={chatParticipant} />
+          <Form method="post" onSubmit={handleSubmit}>
+            <input type="text" name="text" />
+            <button type="submit">New</button>
+          </Form>
+        </div>
+      )}
+    </>
   );
 };
 

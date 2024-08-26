@@ -6,8 +6,8 @@ import useAuth from "../../../context/useAuthHook";
 
 const ChatPageMessageCard = ({ messageId, participant }) => {
   const [messageData, setMessageData] = useState();
-  const { user } = useAuth();
-  console.log("participant", participant);
+  const { ownerUser } = useAuth();
+  //console.log("participant", participant);
   useEffect(() => {
     const getMessageData = async () => {
       const message = await getMessageById(messageId);
@@ -21,12 +21,14 @@ const ChatPageMessageCard = ({ messageId, participant }) => {
     <>
       {messageData && (
         <div
-          className={`${messageData.senderId === user._id ? styles.owner : ""}`}
+          className={`${
+            messageData.senderId === ownerUser._id ? styles.owner : ""
+          }`}
         >
-          {messageData.senderId === user._id ? (
+          {messageData.senderId === ownerUser._id ? (
             <div>
-              <span>{user.firstName}</span>
-              <span>{user.lastName}</span>
+              <span>{ownerUser.firstName}</span>
+              <span>{ownerUser.lastName}</span>
             </div>
           ) : (
             <div>

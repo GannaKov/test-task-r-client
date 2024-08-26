@@ -4,17 +4,20 @@ import AuthContext from "./AuthContext";
 import { getCurrentUser } from "../services/requests";
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [ownerUser, setOwnerUser] = useState();
 
   useEffect(() => {
     const getOwnerChat = async () => {
-      const user = await getCurrentUser();
-      setUser(user);
+      const ownerUser = await getCurrentUser();
+      setOwnerUser(ownerUser);
     };
     getOwnerChat();
   }, []);
 
-  const contextValue = useMemo(() => ({ user, setUser }), [user]);
+  const contextValue = useMemo(
+    () => ({ ownerUser, setOwnerUser }),
+    [ownerUser]
+  );
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
